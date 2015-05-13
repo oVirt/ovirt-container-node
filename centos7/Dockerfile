@@ -26,9 +26,10 @@ VOLUME ["/dev"]
 # udev installed
 
 # VDSM install
-RUN yum-config-manager --add-repo=http://resources.ovirt.org/pub/yum-repo; \
-    yum install -y ovirt-release35 --nogpgcheck; \
-	yum -y install vdsm vdsm-cli && yum clean all; \
+RUN mkdir /container
+ADD container/repo-install.sh /container/
+RUN chmod +x /container/repo-install.sh ;/container/repo-install.sh
+RUN yum -y install vdsm vdsm-cli && yum clean all; \
  	rm -rf /etc/sysconfig/network-scripts/ifcfg-*; \
  	systemctl enable vdsmd
 VOLUME ["/etc/sysconfig/network-scripts/"]
@@ -36,9 +37,7 @@ VOLUME ["/etc/sysconfig/network-scripts/"]
 
 # Prefetching host deploy requirments
 RUN yum install -y tuned kexec-tools iptables-services && yum clean all
-
 # Container install section
-RUN mkdir /container
 ADD container/* /container/
 RUN chmod +x /container/* ;
 
