@@ -28,3 +28,4 @@ cp /container/$service_file /host/etc/systemd/system/$service_file
 # Enabled systemd unit file
 chroot /host /usr/bin/systemctl enable vdsmc.service
 chroot /host /usr/bin/systemctl daemon-reload
+chroot /host /usr/bin/systemctl start vdsmc
