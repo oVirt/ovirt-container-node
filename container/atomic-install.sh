@@ -7,7 +7,7 @@ mkdir -p /host/${CONFDIR}/iscsi
 echo "Creating container"
 chroot /host /usr/bin/docker create --privileged --net=host --cap-add=ALL -ti \
                                       -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
-                                      -v ${CONFDIR}/iscsi:/etc/iscsi:rw \
+                                      -v $CONFDIR/iscsi:/etc/iscsi:rw \
                                       -v /dev:/dev:rw \
                                       -v /lib/modules:/lib/modules:ro \
                                       -v /etc/sysconfig/network-scripts:/etc/sysconfig/network-scripts:rw \
