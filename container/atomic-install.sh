@@ -11,7 +11,7 @@ chroot /host /usr/bin/docker create --privileged --net=host --cap-add=ALL -ti \
                                       -v /dev:/dev:rw \
                                       -v /lib/modules:/lib/modules:ro \
                                       -v /etc/sysconfig/network-scripts:/etc/sysconfig/network-scripts:rw \
-                                       --name vdsmc \
+                                       --name ${NAME} \
                                       ${IMAGE}
 
 echo "Install service"

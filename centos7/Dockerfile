@@ -42,12 +42,12 @@ VOLUME ["/dev"]
 
 # Container install section
 ADD container/* /container/
-RUN chmod +x /container/* ;
+RUN chmod +x /container/*.sh ;
 
 # Create place for iscsi initiator name
 RUN mkdir -p /etc/iscsi;
 
-LABEL INSTALL='docker run --rm --privileged -v /:/host -e HOST=/host -e CONFDIR=${CONFDIR} -e IMAGE=IMAGE --name NAME IMAGE /container/atomic-install.sh;'
-LABEL UNINSTALL='docker run --rm --privileged -v /:/host -e HOST=/host -e CONFDIR=${CONFDIR} -e IMAGE=IMAGE --name NAME IMAGE /container/atomic-uninstall.sh'
+LABEL INSTALL='docker run --rm --privileged -v /:/host -e HOST=/host -e CONFDIR=${CONFDIR} -e IMAGE=IMAGE -e NAME=NAME IMAGE /container/atomic-install.sh;'
+LABEL UNINSTALL='docker run --rm --privileged -v /:/host -e HOST=/host -e CONFDIR=${CONFDIR} -e IMAGE=IMAGE IMAGE /container/atomic-uninstall.sh'
 
 CMD ["/usr/sbin/init"]
