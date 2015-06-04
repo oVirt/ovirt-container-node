@@ -15,12 +15,11 @@ VOLUME [ "/sys/fs/cgroup" ]
 
 # VDSM install
 RUN mkdir /container
-ADD container/repo-install.sh /container/
+ADD repo/repo-install.sh /container/
 RUN chmod +x /container/repo-install.sh ;/container/repo-install.sh
 RUN yum -y install vdsm vdsm-cli && yum clean all; \
  	rm -rf /etc/sysconfig/network-scripts/ifcfg-*; \
  	systemctl enable vdsmd
-VOLUME ["/etc/sysconfig/network-scripts/"]
 # VDSM installed
 
 # Prefetching host deploy requirments
@@ -35,10 +34,7 @@ RUN sed -i 's/IMPORT{builtin}=\"blkid/IMPORT{program}=\"\/usr\/sbin\/blkid'/ /us
 	ln -s /lib/systemd/system/systemd-udevd-kernel.socket /lib/systemd/system/sockets.target.wants/systemd-udevd-kernel.socket; \
 	ln -s /lib/systemd/system/systemd-udev-trigger.service /lib/systemd/system/sysinit.target.wants/systemd-udev-trigger.service; \
 	ln -s /lib/systemd/system/systemd-udevd.service /lib/systemd/system/sysinit.target.wants/systemd-udevd.service;
-VOLUME ["/etc/iscsi/"]
-VOLUME ["/dev"]
 # udev installed
-
 
 # Container install section
 ADD container/* /container/
@@ -47,7 +43,7 @@ RUN chmod +x /container/*.sh ;
 # Create place for iscsi initiator name
 RUN mkdir -p /etc/iscsi;
 
-LABEL INSTALL='docker run --rm --privileged -v /:/host -e HOST=/host -e CONFDIR=${CONFDIR} -e IMAGE=IMAGE -e NAME=NAME IMAGE /container/atomic-install.sh;'
-LABEL UNINSTALL='docker run --rm --privileged -v /:/host -e HOST=/host -e CONFDIR=${CONFDIR} -e IMAGE=IMAGE IMAGE /container/atomic-uninstall.sh'
+LABEL INSTALL='docker run --rm --privileged -v /:/host -e HOST=/host -e CONFDIR=${CONFDIR} -e DATADIR=${DATADIR} -e IMAGE=IMAGE -e NAME=NAME IMAGE /container/atomic-install.sh;'
+LABEL UNINSTALL='docker run --rm --privileged -v /:/host -e HOST=/host -e CONFDIR=${CONFDIR} -e DATADIR=${DATADIR} -e IMAGE=IMAGE IMAGE /container/atomic-uninstall.sh'
 
 CMD ["/usr/sbin/init"]
