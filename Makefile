@@ -4,13 +4,14 @@
 # TBD : to change to real one once acked
 virt-branch?=ovirt35-snapshot
 docker-repo?="$(shell echo $$USER)/"
-repo-install?=container/repo-$(virt-branch).sh
+repo-install?=repos/repo-$(virt-branch).sh
 changes = $(shell git status --porcelain)
 
 repoinstall:
 	@cmp -s $(repo-install) repo/repo-install.sh; \
 	if [ $$? -ne 0 ] ; then \
 		echo "Updating repo file"; \
+		mkdir -p repo; \
 		cp -f $(repo-install) repo/repo-install.sh ; \
 	fi
 
