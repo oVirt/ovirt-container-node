@@ -2,7 +2,7 @@
 
 # the repo to store the container , currently some local repo I use.
 # TBD : to change to real one once acked
-virt-branch?=ovirt35-snapshot
+virt-branch?=latest
 docker-repo?="$(shell echo $$USER)/"
 repo-install?=repos/repo-$(virt-branch).sh
 changes = $(shell git status --porcelain)
