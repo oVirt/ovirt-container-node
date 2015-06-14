@@ -31,7 +31,8 @@ function install()
     echo  "Copying config and data"
     cp -r /etc/* /host/${CONFDIR}
     cp -r /var/* /host/${DATADIR}
-}
+    #set correct permissions for the password file
+    chmod uo+r /host/${CONFDIR}/pki/vdsm/keys/libvirt_password
 
 function upgrade()
 {
