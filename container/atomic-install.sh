@@ -8,15 +8,18 @@ echo "Creating container"
 function CreateContainer()
 {
 	#create the real container
-	chroot /host /usr/bin/docker create --privileged --net=host --cap-add=ALL -ti \
+	chroot /host /usr/bin/docker create --privileged --net=host --cap-add=ALL --ipc=host -ti \
                                       -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
                                       -v /dev:/dev:rw \
                                       -v /lib/modules:/lib/modules:ro \
                                       -v /etc/sysconfig/network-scripts:/etc/sysconfig/network-scripts:rw \
+                                      -v /run/udev:/run/udev:rw \
                                       -v /${CONFDIR}:/etc:rw \
-                                      -v /${DATADIR}:/var:rw \
                                        --name ${NAME} \
                                       ${IMAGE}
+
+                                      # we would need to persist these to but we cant due to user mismapping in docker
+                                      #-v /${DATADIR}:/var:rw \
 }
 
 function install()
@@ -24,15 +27,21 @@ function install()
 	echo "Installing"
 	echo "Making direcotries"
 	mkdir -p /host/${CONFDIR}
-	mkdir -p /host/${DATADIR}
+	#mkdir -p /host/${DATADIR}
 	#creating the container
 	CreateContainer
-    #setting up the persistance images and copying the data in
-    echo  "Copying config and data"
-    cp -r /etc/* /host/${CONFDIR}
-    cp -r /var/* /host/${DATADIR}
-    #set correct permissions for the password file
-    chmod uo+r /host/${CONFDIR}/pki/vdsm/keys/libvirt_password
+  #setting up the persistance images and copying the data in
+  echo  "Copying config and data"
+  cp -r /etc/* /host/${CONFDIR}
+  # TODO : same thing with var but on file bases
+  #cp -r /var/* /host/${DATADIR}
+  #set correct permissions for the password file
+  chmod uo+r /host/${CONFDIR}/pki/vdsm/keys/libvirt_password
+  #lets copy the rules and later make symlinks
+  #and edit the rules users / groups
+  cp -rn /etc/udev/rules.d/* /host/etc/udev/rules.d/
+  cp -rn /lib/udev/rules.d/* /host/lib/udev/rules.d/
+}
 
 function upgrade()
 {
