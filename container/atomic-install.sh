@@ -14,12 +14,11 @@ function CreateContainer()
                                       -v /lib/modules:/lib/modules:ro \
                                       -v /etc/sysconfig/network-scripts:/etc/sysconfig/network-scripts:rw \
                                       -v /run/udev:/run/udev:rw \
-                                      -v /${CONFDIR}:/etc:rw \
+                                      -v /etc/udev/rules.d:/etc/udev/rules.d:rwZ \
+                                      -v /${CONFDIR}:/etc:rwZ \
                                        --name ${NAME} \
                                       ${IMAGE}
 
-                                      # we would need to persist these to but we cant due to user mismapping in docker
-                                      #-v /${DATADIR}:/var:rw \
 }
 
 function install()
@@ -37,10 +36,6 @@ function install()
   #cp -r /var/* /host/${DATADIR}
   #set correct permissions for the password file
   chmod uo+r /host/${CONFDIR}/pki/vdsm/keys/libvirt_password
-  #lets copy the rules and later make symlinks
-  #and edit the rules users / groups
-  cp -rn /etc/udev/rules.d/* /host/etc/udev/rules.d/
-  cp -rn /lib/udev/rules.d/* /host/lib/udev/rules.d/
 }
 
 function upgrade()
