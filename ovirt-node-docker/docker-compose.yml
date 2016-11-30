@@ -1,0 +1,11 @@
+ovirt-node-container:
+  build: .
+  ports:
+    - "54321:54321"
+  privileged: true
+  volumes:
+    - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    - /etc/pki/vdsm:/etc/pki/vdsm:Z
+    - var_log_vdsm:/var/log/vdsm
+    - var_log_libvirt:/var/log/libvirt
+  restart: always

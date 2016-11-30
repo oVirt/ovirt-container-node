@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  labels:
+  name: vdsm-kube-daemonset
+spec:
+  template:
+    metadata:
+      labels:
+        name: vdsm-kube-template
+    spec:
+      restartPolicy: "Always"
+      containers:
+        - image: docker.io/bronhaim/vdsm-kube:latest
+          name: vdsm-kube-container
+          ports:
+            - containerPort: 54321
+              hostPort: 54321
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: sys-fs-cgroup
+              mountPath: /sys/fs/cgroup
+              readOnly: true
+      volumes:
+        - name: sys-fs-cgroup
+          hostPath:
+            path: /sys/fs/cgroup
