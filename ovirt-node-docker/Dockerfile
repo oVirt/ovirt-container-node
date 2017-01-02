@@ -4,6 +4,7 @@ ENV container docker
 
 RUN echo "root:qum5net" | chpasswd
 RUN echo "options kvm-intel nested=1" > /etc/modprobe.d/kvm-intel.conf
+RUN ln -s ../boot/grub2/grub.cfg /etc/grub2.cfg
 
 # copied from http://developers.redhat.com/blog/2014/05/05/running-systemd-within-docker-container/
 RUN yum -y update; yum clean all
@@ -31,12 +32,13 @@ RUN mkdir -p /etc/iscsi;
 # RUN yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release-master.rpm
 RUN yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release40.rpm
 RUN yum install -y http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
-RUN yum install -y openssh-server vdsm vdsm-cli vdsm-hook-faqemu; yum clean all;
+RUN yum install -y grub2-tools openssh-server vdsm vdsm-cli vdsm-hook-faqemu; yum clean all;
 
 ADD scripts/* /root/
 # conf for host-deploy to avoid the upgrade check
 RUN mkdir /etc/ovirt-host-deploy.conf.d
-ADD confs/50-offline-packager.conf /etc/ovirt-host-deploy.conf.d/
+# NOTE: commented out - trying to use regular deploy flow
+#ADD confs/50-offline-packager.conf /etc/ovirt-host-deploy.conf.d/
 ADD confs/vdsm.conf /etc/vdsm/vdsm.conf
 
 # for some reason this file is missing when running vdsm-tool configure

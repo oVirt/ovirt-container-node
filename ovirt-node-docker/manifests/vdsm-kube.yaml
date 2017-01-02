@@ -23,7 +23,17 @@ spec:
             - name: sys-fs-cgroup
               mountPath: /sys/fs/cgroup
               readOnly: true
+            - name: dev
+              mountPath: /dev
+            - name: boot
+              mountPath: /boot
       volumes:
         - name: sys-fs-cgroup
           hostPath:
             path: /sys/fs/cgroup
+        - name: dev
+          hostPath:
+            path: /dev
+        - name: boot
+          hostPath:
+            path: /boot

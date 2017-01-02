@@ -1,6 +1,7 @@
 [Unit]
 Description=Simple service file to configure host after vdsm is running
-Before=vdsmd.service
+Wants=vdsmd.service
+After=vdsmd.service
 
 [Service]
 Type=oneshot
