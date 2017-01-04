@@ -3,9 +3,10 @@ from vdsm import vdscli
 import socket
 
 c = vdscli.connect()
-network_attrs = {'nics': 'eth0',
+network_attrs = {'nic': 'veth_name0',
                  'ipaddr': socket.gethostbyname(socket.gethostname()),
-                 'netmask': '255.255.255.0',
+                 'netmask': '255.240.0.0',
+                 'gateway': '10.32.0.1',
                  'defaultRoute': True,
                  'bridged': True}
 
