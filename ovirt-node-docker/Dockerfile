@@ -40,6 +40,7 @@ RUN mkdir /etc/ovirt-host-deploy.conf.d
 # NOTE: commented out - trying to use regular deploy flow
 ADD confs/50-offline-packager.conf /etc/ovirt-host-deploy.conf.d/
 ADD confs/vdsm.conf /etc/vdsm/vdsm.conf
+ADD confs/sanlock.conf /etc/sanlock/sanlock.conf
 
 # for some reason this file is missing when running vdsm-tool configure
 RUN touch /etc/libvirt/qemu-sanlock.conf
