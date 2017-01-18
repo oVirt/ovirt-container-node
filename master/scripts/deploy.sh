@@ -8,10 +8,10 @@ ip link set eth0 down
 ip link set eth0 name veth_name0
 ip link set veth_name0 up
 # in our cluster 10.32.0.1 is the default gateway
-ip route add default via 10.32.0.1 dev veth_name0
+ip route add default via $CLUSTER_GATEWAY dev veth_name0
 #
 
 python /root/add_network.py
 
 # ovirt registration flow.
-vdsm-tool register --engine-fqdn ovirt-engine --check-fqdn false
+vdsm-tool register --engine-fqdn $ENGINE_FQDN --check-fqdn false

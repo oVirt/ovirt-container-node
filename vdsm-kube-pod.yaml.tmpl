@@ -28,7 +28,12 @@ spec:
               mountPath: /dev
             - name: boot
               mountPath: /boot
-      volumes:
+          env:
+            - name: OVIRT_FQDN
+              value: {{ OVIRT_FQDN_PLACE }}
+            - name: CLUSTER_GATEWAY
+              value: {{ CLUSTER_GATEWAY_PLACE }}
+     volumes:
         - name: sys-fs-cgroup
           hostPath:
             path: /sys/fs/cgroup

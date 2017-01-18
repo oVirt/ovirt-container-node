@@ -1,6 +1,10 @@
 FROM centos:7
 MAINTAINER "Yaniv Bronhaim" <ybronhei@redhat.com>
+
 ENV container docker
+
+ENV ENGINE_FQDN ovirt-engine
+ENV CLUSTER_GATEWAY 10.32.0.1
 
 RUN echo "root:ovirt-node" | chpasswd
 RUN echo "options kvm-intel nested=1" > /etc/modprobe.d/kvm-intel.conf

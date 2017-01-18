@@ -1,5 +1,8 @@
 vdsm-kube:
   build: ./$MAJOR_VERSION
+  environment:
+    - ENGINE_FQDN=ovirt-engine
+    - CLUSTER_GATEWAY=10.32.0.2
   privileged: true
   ports:
     - 54321:54321
