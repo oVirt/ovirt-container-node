@@ -30,8 +30,7 @@ RUN mkdir -p /etc/iscsi;
 # ovirt-container-node
 
 RUN yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release-master.rpm
-# RUN yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release40.rpm
-RUN yum install -y http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+#RUN yum install -y http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 RUN yum install -y iproute grub2-tools openssh-server vdsm vdsm-cli vdsm-hook-faqemu; yum clean all;
 
 ADD scripts/* /root/
