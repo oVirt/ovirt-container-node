@@ -2,7 +2,7 @@ vdsm-kube:
   build: ./$MAJOR_VERSION
   environment:
     - ENGINE_FQDN=ovirt-engine
-    - CLUSTER_GATEWAY=10.32.0.2
+    - CLUSTER_GATEWAY=10.32.0.1    
   privileged: true
   ports:
     - 54321:54321
@@ -11,3 +11,12 @@ vdsm-kube:
     - /dev:/dev:Z
     - /boot:/boot:Z
   restart: always
+  links:
+    - vdsm-kube-logger
+  mem_limit: 500M
+vdsm-kube-logger:
+  build: logger
+  hostname: vdsm-kube-logger
+  ports:
+    - 514:514/tcp
+  mem_limit: 500M

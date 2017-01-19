@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
   labels:
-  name: vdsm-kube-daemonset
+  name: vdsm-kube-ds
 spec:
   template:
     metadata:
@@ -12,12 +12,19 @@ spec:
       restartPolicy: "Always"
       hostIPC: true
       containers:
+        - image: docker.io/bronhaim/vdsm-kube-logger:latest
+          name: vdsm-kube-logger
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 514
+              hostPort: 514
+
         - image: docker.io/bronhaim/vdsm-kube:latest
-          name: vdsm-kube-container
+          name: vdsm-kube
           ports:
             - containerPort: 54321
               hostPort: 54321
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: "Always"
           securityContext:
             privileged: true
           volumeMounts:
@@ -30,10 +37,16 @@ spec:
               mountPath: /boot
           env:
             - name: OVIRT_FQDN
-              value: {{ OVIRT_FQDN_PLACE }}
+              valueFrom:
+                configMapKeyRef:
+                  name: vdsm-kube-config
+                  key: engine.fqdn
             - name: CLUSTER_GATEWAY
-              value: {{ CLUSTER_GATEWAY_PLACE }}
-     volumes:
+              valueFrom:
+                configMapKeyRef:
+                  name: vdsm-kube-config
+                  key: cluster.gateway
+      volumes:
         - name: sys-fs-cgroup
           hostPath:
             path: /sys/fs/cgroup
