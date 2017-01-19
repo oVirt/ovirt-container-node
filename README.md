@@ -1,5 +1,7 @@
 # ovirt-container-node
 
+[![Build Status](https://travis-ci.org/ovirt/ovirt-container-node.svg?branch=master)](https://travis-ci.org/ovirt/ovirt-container-node)
+
 Dockerized version of ovirt-node, the hypervisor part of oVirt
 
 ## Build
@@ -23,8 +25,8 @@ each kubevirt node we will start a container with all ovirt hypervisor requireme
 If the engine is registered in the cluster and reachable via "ovirt-engine" dns name,
 the hypervisor instance will register automatically to this ovirt-engine as wait for approval.
 
-[1] https://github.com/kubevirt/kubevirt/blob/master/README.md
-[2] https://github.com/kubevirt/kubevirt/blob/master/docs/getting-started.md
+ [1] https://github.com/kubevirt/kubevirt/blob/master/README.md
+ [2] https://github.com/kubevirt/kubevirt/blob/master/docs/getting-started.md
 
 ## NOTES
 This instance is running with the following hardcoded changes:
