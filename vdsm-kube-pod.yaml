@@ -36,7 +36,7 @@ spec:
             - name: boot
               mountPath: /boot
           env:
-            - name: OVIRT_FQDN
+            - name: ENGINE_FQDN
               valueFrom:
                 configMapKeyRef:
                   name: vdsm-kube-config
